@@ -2,9 +2,9 @@ Name:           json-glib
 Version:        1.4.4
 Release:        1
 Summary:        Library for JavaScript Object Notation format
-License:        LGPL-2.1-or-later
-URL:            https://gitlab.gnome.org/GNOME/json-glib/
-Source0:        http://download.gnome.org/sources/json-glib/1.4/%{name}-%{version}.tar.xz
+License:        LGPLv2+
+URL:            https://wiki.gnome.org/Projects/JsonGlib
+Source0:        %{name}-%{version}.tar.gz
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  gobject-introspection-devel
 BuildRequires:  meson
@@ -58,7 +58,6 @@ json-glib library.
 
 %install
 %meson_install
-find %{buildroot} -type f -name "*.la" -delete -print
 %find_lang %{name}-1.0
 
 %post -n libjson-glib -p /sbin/ldconfig
