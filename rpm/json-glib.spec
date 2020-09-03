@@ -1,10 +1,10 @@
 Name:           json-glib
-Version:        1.4.4
-Release:        1
 Summary:        Library for JavaScript Object Notation format
+Version:        1.5.2
+Release:        1
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Projects/JsonGlib
-Source0:        %{name}-%{version}.tar.gz
+Source0:        %{name}-%{version}.tar.bz2
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  gobject-introspection-devel
 BuildRequires:  meson
@@ -20,26 +20,9 @@ GValue for ease of development. It also provides integration with the
 GObject classes for direct serialization into, and deserialization from,
 JSON data streams.
 
-%package -n libjson-glib
-Summary:        Library for JavaScript Object Notation format
-Provides:       %{name} = %{version}
-
-%description -n libjson-glib
-JSON is a lightweight data-interchange format. It is comparatively
-easy for humans to read and write, and for machines to parse and generate.
-
-JSON-GLib provides a parser and a generator GObject classes and various
-wrappers for the complex data types employed by JSON, such as arrays
-and objects.
-
-JSON-GLib uses GLib native data types and the generic value container
-GValue for ease of development. It also provides integration with the
-GObject classes for direct serialization into, and deserialization from,
-JSON data streams.
-
 %package devel
-Summary:        Development files for libjson-glib
-Requires:       libjson-glib = %{version}
+Summary:        Development files for %{name}
+Requires:       %{name} = %{version}-%{release}
 
 %description devel
 JSON-GLib provides a parser and a generator GObject classes and various
@@ -49,25 +32,38 @@ and objects.
 This package contains development files needed to develop with the
 json-glib library.
 
+%package tests
+Summary:        Tests for the %{name} package
+Requires:       %{name} = %{version}-%{release}
+
+%description tests
+The %{name}-tests package contains tests that can be used to verify the
+functionality of the installed %{name} package.
+
 %prep
-%setup -q -n %{name}-%{version}/upstream
+%autosetup -n %{name}-%{version}/upstream
 
 %build
-%meson 
+%meson -Dgtk_doc=disabled -Dman=false
 %meson_build
 
 %install
 %meson_install
 %find_lang %{name}-1.0
 
-%post -n libjson-glib -p /sbin/ldconfig
-%postun -n libjson-glib -p /sbin/ldconfig
+%check
+%meson_test
 
-%files -n libjson-glib -f %{name}-1.0.lang
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
+%files -f %{name}-1.0.lang
+%defattr(-,root,root,-)
 %license COPYING
 %{_libdir}/*.so.*
 
 %files devel
+%defattr(-,root,root,-)
 %doc NEWS README.md
 %{_bindir}/json-glib-format
 %{_bindir}/json-glib-validate
@@ -75,8 +71,9 @@ json-glib library.
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*.pc
 %{_datadir}/gir-1.0/*.gir
-%dir %{_datadir}/installed-tests
-%dir %{_libexecdir}/installed-tests
-%{_datadir}/installed-tests/json-glib-1.0/
-%{_libexecdir}/installed-tests/json-glib-1.0/
 %{_libdir}/girepository-1.0/Json-1.0.typelib
+
+%files tests
+%defattr(-,root,root,-)
+%{_libexecdir}/installed-tests/
+%{_datadir}/installed-tests/
