@@ -9,6 +9,8 @@ BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  gobject-introspection-devel
 BuildRequires:  meson
 BuildRequires:  gettext
+Obsoletes:      libjson-glib
+Conflicts:      libjson-glib
 
 %description
 JSON-GLib provides a parser and a generator GObject classes and various
