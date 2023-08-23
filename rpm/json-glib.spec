@@ -11,7 +11,7 @@ BuildRequires:  python3-base
 BuildRequires:  pkgconfig(gio-2.0) >= 2.54.0
 BuildRequires:  pkgconfig(glib-2.0) >= 2.54.0
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
-Obsoletes:      libjson-glib >= 0.0.1
+Obsoletes:      libjson-glib <= 9.9.9
 Conflicts:      libjson-glib
 
 %description
